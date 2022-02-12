@@ -27,7 +27,6 @@ app.use("/api/company", companyRouter);
 
 app.use((err, req, res, next) => {
   const status = err.statusCode || 500;
-
   return res.status(status).json({
     status: status,
     message: err.message,

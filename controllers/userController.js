@@ -1,6 +1,8 @@
 const { User } = require("../model/user");
 const db = require("../db");
 var { validationResult } = require("express-validator");
+var jwt = require('jsonwebtoken')
+var cfg = require('../config/index')
 
 exports.register = async (req, res, next) => {
   try {
@@ -44,3 +46,36 @@ exports.register = async (req, res, next) => {
     return next(error);
   }
 };
+
+
+exports.login = (req, res, next) => {
+    try {
+      let { username, password } = req.body
+
+      q = `SELECT username, password FROM users WHERE username = '${username}'`
+      db.query(q, async (err, result) => {
+        if (err) return next(err);
+        if (result.length > 0)  {
+          user = new User(result[0].username, result[0].password)
+
+          isValid = await user.comparePassword(password)
+          if (!isValid) {
+            err = new Error("Username or password incorrect")
+            err.statusCode = 401
+            return next(err)
+          }
+
+          let token = jwt.sign({
+            username: user.username,
+            role: user.role
+          }, cfg.JWT_SECRET, {expiresIn : '1h'})
+
+          return res.status(200).json({
+            access_token : token
+          })
+        }
+      }) 
+    } catch (error) {
+     return  next(error);
+    }
+}

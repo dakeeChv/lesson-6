@@ -14,6 +14,12 @@ class User {
         let hash = await bcrypt.hashSync(password, salt)
         return hash
     }
+
+    // Compare password
+    async comparePassword(password) {
+        let result = await bcrypt.compareSync(password, this.password);
+        return result;
+    }
 }
 
 module.exports = { User }
