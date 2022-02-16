@@ -12,7 +12,6 @@ opts.secretOrKey = cfg.JWT_SECRET
 // 
 passport.use(new JwtStrategy(opts, (jwt_payload, done) =>{
   try {
-    console.log(jwt_payload)
     const q = `SELECT username, role FROM users WHERE username = ?`;
     db.query(q, [jwt_payload.username] , (err, result)=>{
       if (err) return done(err)

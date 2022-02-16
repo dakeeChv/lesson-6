@@ -3,12 +3,41 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require("cors");
+var helmet = require("helmet");
+var rateLimit = require("express-rate-limit");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var companyRouter = require("./routes/company");
 
 var app = express();
+
+app.use(cors());
+
+app.use(helmet.contentSecurityPolicy());
+app.use(helmet.crossOriginEmbedderPolicy());
+app.use(helmet.crossOriginOpenerPolicy());
+app.use(helmet.crossOriginResourcePolicy());
+app.use(helmet.dnsPrefetchControl());
+app.use(helmet.expectCt());
+app.use(helmet.frameguard());
+app.use(helmet.hidePoweredBy());
+app.use(helmet.hsts());
+app.use(helmet.ieNoOpen());
+app.use(helmet.noSniff());
+app.use(helmet.originAgentCluster());
+app.use(helmet.permittedCrossDomainPolicies());
+app.use(helmet.referrerPolicy());
+app.use(helmet.xssFilter());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: true, // Disable the `X-RateLimit-*` headers
+});
+app.use(limiter);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -33,6 +62,5 @@ app.use((err, req, res, next) => {
     validation: err.validation,
   });
 });
-
 
 module.exports = app;
