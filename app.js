@@ -18,7 +18,7 @@ const domain = ["www.companyoflao.online"];
 app.use(
   cors({
     origin: (origin, next) => {
-      console.log(origin);
+      console.log("ORG" + origin);
       if (domain.includes(origin)) {
         console.log("er");
         next(null, true);
@@ -28,8 +28,9 @@ app.use(
     },
     methods: (method, next) => {
       console.log("eer", method);
-      return "#DELETE";
+      return "DELETE";
     },
+    credentials: true
   })
 );
 
