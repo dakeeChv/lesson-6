@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "pm2 start ./bin/www -i max",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
@@ -22,6 +23,7 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "pm2": "^5.1.2"
   }
 }

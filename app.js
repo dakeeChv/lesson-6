@@ -13,7 +13,14 @@ var companyRouter = require("./routes/company");
 
 var app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 
 app.use(helmet.contentSecurityPolicy());
 app.use(helmet.crossOriginEmbedderPolicy());
