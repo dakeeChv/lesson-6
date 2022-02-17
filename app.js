@@ -14,7 +14,7 @@ var companyRouter = require("./routes/company");
 var app = express();
 
 const corsOptions = {
-  origin: "*",
+  origin: "www.companyoflao.online",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   preflightContinue: false,
   optionsSuccessStatus: 204,
