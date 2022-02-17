@@ -18,12 +18,12 @@ const domain = ["www.companyoflao.online"];
 app.use(
   cors({
     origin: (origin, next) => {
-      console0.log(origin);
+      console.log(origin);
       if (domain.includes(origin)) {
         console.log("er");
         next(null, true);
       } else {
-        next(new Error("Request has been blocked by cors policy"));
+        next(new Error("Request has been blocked by cors policy", origin));
       }
     },
     methods: (method, next) => {
