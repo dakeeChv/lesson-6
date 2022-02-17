@@ -13,14 +13,25 @@ var companyRouter = require("./routes/company");
 
 var app = express();
 
-const corsOptions = {
-  origin: "www.companyoflao.online",
-  methods: "DELETE",
-  preflightContinue: true,
-  optionsSuccessStatus: 204,
-};
+const domain = ["www.companyoflao.online"];
 
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: (origin, next) => {
+      console0.log(origin);
+      if (domain.includes(origin)) {
+        console.log("er");
+        next(null, true);
+      } else {
+        next(new Error("Request has been blocked by cors policy"));
+      }
+    },
+    methods: (method, next) => {
+      console.log("eer", method);
+      return "#DELETE";
+    },
+  })
+);
 
 app.use(helmet.contentSecurityPolicy());
 app.use(helmet.crossOriginEmbedderPolicy());
