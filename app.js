@@ -16,7 +16,7 @@ var app = express();
 const corsOptions = {
   origin: "www.companyoflao.online",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue: false,
+  preflightContinue: true,
   optionsSuccessStatus: 204,
 };
 
